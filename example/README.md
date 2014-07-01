@@ -3,5 +3,5 @@
 ## Manifest
 
 * `run-direct.csh` - example script to run directly from the shell in "interactive" mode
-* `run-tcsh.csh` - example Torque batch submission script
+* `run-torque.csh` - example Torque batch submission script
 * `setup/` - input files in AMBER format
