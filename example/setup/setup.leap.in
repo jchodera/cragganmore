@@ -1,7 +1,7 @@
 # Set up complex for GBSA simulation with OBC model.
 
 # Load forcefields
-source leaprc.ff99sbildn
+source leaprc.ff99SBildn
 # source leaprc.ff99SB
 source leaprc.gaff
 
