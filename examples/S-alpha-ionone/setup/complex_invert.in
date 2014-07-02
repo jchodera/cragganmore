@@ -1,0 +1,19 @@
+source leaprc.ff99SB
+source leaprc.gaff
+
+loadamberprep test.prepin
+loadamberparams IC6.frcmod
+loadoff HEME_IC6.off
+loadoff CYP_IC6.off
+
+prot=loadpdb M01_A82W_em_2AMBER.pdb
+hem=loadmol2 HEME2AMBER.mol2
+lig=loadpdb ranked1test_invert.pdb
+complex = combine { prot hem lig }
+
+bond complex.456.28 complex.400.8
+saveamberparm complex complex_invert.prmtop complex_invert.inpcrd
+savepdb complex complex_invert.pdb
+quit
+
+

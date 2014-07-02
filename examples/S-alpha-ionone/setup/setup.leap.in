@@ -1,0 +1,38 @@
+# Set up complex for GBSA simulation with OBC model.
+
+# Load forcefields
+source leaprc.ff99SBildn
+# source leaprc.ff99SB
+source leaprc.gaff
+
+# Set GB radii to recommended values for OBC.
+set default PBRadii mbondi2
+
+# Load additional parameters.
+loadamberprep test.prepin
+loadamberparams IC6.frcmod
+loadoff HEME_IC6.off
+loadoff CYP_IC6.off
+
+# Load structures.
+prot=loadpdb M01_A82W_em_2AMBER.pdb
+hem=loadmol2 HEME2AMBER.mol2
+lig=loadpdb ranked1test_invert.pdb
+
+ligand = combine { lig }
+saveamberparm ligand ligand.prmtop ligand.inpcrd
+savepdb ligand ligand.pdb
+
+receptor = combine { prot hem }
+bond receptor.456.28 receptor.400.8
+saveamberparm receptor receptor.prmtop receptor.inpcrd
+savepdb receptor receptor.pdb
+
+complex = combine { prot hem lig }
+bond complex.456.28 complex.400.8
+saveamberparm complex complex.prmtop complex.inpcrd
+savepdb complex complex.pdb
+
+quit
+
+
