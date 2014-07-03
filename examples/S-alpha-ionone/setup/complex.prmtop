@@ -1,4 +1,4 @@
-%VERSION  VERSION_STAMP = V0001.000  DATE = 07/02/14  15:05:48                  
+%VERSION  VERSION_STAMP = V0001.000  DATE = 07/03/14  14:50:12                  
 %FLAG TITLE                                                                     
 %FORMAT(20a4)                                                                   
 default_name                                                                    
@@ -5645,7 +5645,7 @@ HID ARG ASP LYS THR ILE TRP GLY ASP ASP VAL GLU GLU PHE ARG PRO GLU ARG PHE GLU
 ASN PRO SER ALA ILE PRO GLN HIE ALA PHE LYS PRO PHE GLY ASN GLY GLN ARG ALA CYP 
 ILE GLY GLN GLN PHE ALA LEU HIE GLU ALA THR LEU VAL LEU GLY MET MET LEU LYS HID 
 PHE ASP PHE GLU ASP HIE THR ASN TYR GLU LEU ASP ILE LYS GLU THR LEU THR LEU LYS 
-PRO GLU GLY PHE VAL VAL LYS ALA LYS SER LYS LYS ILE PRO LEU HEM RAI 
+PRO GLU GLY PHE VAL VAL LYS ALA LYS SER LYS LYS ILE PRO LEU HEM SAI 
 %FLAG RESIDUE_POINTER                                                           
 %FORMAT(10I8)                                                                   
        1      17      36      58      73      90     104     121     135     157

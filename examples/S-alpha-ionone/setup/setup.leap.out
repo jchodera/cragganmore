@@ -30,7 +30,7 @@ Loading parameters: /cbio/jclab/share/amber/amber12//dat/leap/parm/gaff.dat
 Reading title:
 AMBER General Force Field for organic molecules (Version 1.5, January 2013)
 Using H(N)-modified Bondi radii
-Loading Prep file: ./test.prepin
+Loading Prep file: ./s-a-ion.prepin
 Loading parameters: ./IC6.frcmod
 Reading force field modification type file (frcmod)
 Reading title:
@@ -53,11 +53,11 @@ Building angle parameters.
 Building proper torsion parameters.
 Building improper torsion parameters.
 old PREP-specified impropers:
- <RAI 1>:  C12  C11  C1   O1  
- <RAI 1>:  C2   C1   C11  H15 
- <RAI 1>:  C    C11  C2   H   
- <RAI 1>:  C9   C7   C8   H9  
- <RAI 1>:  C8   C    C9   C10 
+ <SAI 1>:  C12  C11  C1   O1  
+ <SAI 1>:  C2   C1   C11  H15 
+ <SAI 1>:  C    C11  C2   H   
+ <SAI 1>:  C9   C7   C8   H9  
+ <SAI 1>:  C8   C    C9   C10 
  total 1 improper torsion applied
  5 improper torsions in old prep form
 Building H-Bond parameters.
@@ -108,11 +108,11 @@ Building angle parameters.
 Building proper torsion parameters.
 Building improper torsion parameters.
 old PREP-specified impropers:
- <RAI 457>:  C12  C11  C1   O1  
- <RAI 457>:  C2   C1   C11  H15 
- <RAI 457>:  C    C11  C2   H   
- <RAI 457>:  C9   C7   C8   H9  
- <RAI 457>:  C8   C    C9   C10 
+ <SAI 457>:  C12  C11  C1   O1  
+ <SAI 457>:  C2   C1   C11  H15 
+ <SAI 457>:  C    C11  C2   H   
+ <SAI 457>:  C9   C7   C8   H9  
+ <SAI 457>:  C8   C    C9   C10 
  total 1450 improper torsions applied
  5 improper torsions in old prep form
 Building H-Bond parameters.

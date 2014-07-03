@@ -1,4 +1,4 @@
-%VERSION  VERSION_STAMP = V0001.000  DATE = 07/02/14  15:05:47                  
+%VERSION  VERSION_STAMP = V0001.000  DATE = 07/03/14  14:50:11                  
 %FLAG TITLE                                                                     
 %FORMAT(20a4)                                                                   
 default_name                                                                    
@@ -55,7 +55,7 @@ H17 C6  H5  H6  C7  H7  H8  C8  H9  C9  C10 H11 H14 H18
       11      12      13      14      15
 %FLAG RESIDUE_LABEL                                                             
 %FORMAT(20a4)                                                                   
-RAI 
+SAI 
 %FLAG RESIDUE_POINTER                                                           
 %FORMAT(10I8)                                                                   
        1
