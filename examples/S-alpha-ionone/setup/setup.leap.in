@@ -9,7 +9,7 @@ source leaprc.gaff
 set default PBRadii mbondi2
 
 # Load additional parameters.
-loadamberprep test.prepin
+loadamberprep s-a-ion.prepin
 loadamberparams IC6.frcmod
 loadoff HEME_IC6.off
 loadoff CYP_IC6.off
