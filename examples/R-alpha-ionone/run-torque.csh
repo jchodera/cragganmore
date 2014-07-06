@@ -3,7 +3,7 @@
 #
 #
 # walltime : maximum wall clock time (hh:mm:ss)
-#PBS -l walltime=8:00:00
+#PBS -l walltime=48:00:00
 #
 # join stdout and stderr
 #PBS -j oe
@@ -17,13 +17,14 @@
 # nodes: number of 8-core nodes
 #   ppn: how many cores per node to use (1 through 8)
 #       (you are always charged for the entire node)
-#PBS -l nodes=1:ppn=4:gpus=4:shared
+##PBS -l nodes=1:ppn=4:gpus=4:shared
+#PBS -l nodes=2:ppn=4:gpus=4:shared
 #
 # export all my environment variables to the job
 ##PBS -V
 #
 # job name (default = name of script file)
-#PBS -N p450-test
+#PBS -N R-alpha-ionone
 #
 # specify email
 #PBS -M john.chodera@choderalab.org
@@ -38,11 +39,11 @@
 
 cd $PBS_O_WORKDIR
 
-setenv YANKHOME ${HOME}/yank/yank.choderalab
+setenv YANKHOME /cbio/jclab/projects/chodera/yank/yank.choderalab
 
 date
 hostname
 
-mpirun -rmk pbs python $YANKHOME/yank/yank.py --receptor_prmtop setup/receptor.prmtop --ligand_prmtop setup/ligand.prmtop --complex_prmtop setup/complex.prmtop --complex_crd setup/complex.inpcrd --restraints harmonic --randomize_ligand --iterations 500 --verbose --mpi --platform OpenCL --gpus_per_node 4 >& output
+mpirun -rmk pbs python $YANKHOME/yank/yank.py --receptor_prmtop setup/receptor.prmtop --ligand_prmtop setup/ligand.prmtop --complex_prmtop setup/complex.prmtop --complex_crd setup/complex.inpcrd --restraints harmonic --randomize_ligand --iterations 500 --verbose --mpi --platform OpenCL --gpus_per_node 4 >>& output
 date
 
