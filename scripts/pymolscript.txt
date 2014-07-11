@@ -1,0 +1,22 @@
+load Masterthesis/R-alpha-ionone/complex.pdb
+load Masterthesis/R-alpha-ionone/outputtestpdb.pdb, receptor
+select HEME, resn HEM
+select ligand, resn SAI
+select ligandstart, resn RAI
+create heme_sticks, HEME
+create ligand_sticks, ligand
+create ligandstart_sticks, ligandstart
+remove HEME+ligand+ligandstart
+show sticks, heme_sticks + ligand_sticks + ligandstart_sticks
+color orange, receptor
+color green, heme_sticks
+color red, ligandstart_sticks
+color purple, ligand_sticks
+select R47L, resi 47
+select L188Q, resi 188
+color blue, R47L
+color blue, L188Q
+zoom complete=1
+show cartoon, receptor
+hide lines, receptor
+hide lines, complex
