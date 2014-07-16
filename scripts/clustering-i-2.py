@@ -85,14 +85,16 @@ print leader_labels
 # dataset in memory at once
 
 labels = []
-for frame in md.iterload('R-complex-000.h5', chunk=1):
+for frame in md.iterload(h5traj, chunk=1):
     labels.append(leader_labels[np.argmin(md.rmsd(leaders, frame, 0))])
 labels = np.array(labels)
 
-np.savetxt('test.out', labels, delimiter=' ', fmt="%s")
-loadtext= np.loadtxt('test.out', dtype=str , delimiter='\n')
-print loadtext
+#Save as text with np loadtxt so it can be later used with np
+np.savetxt('savelabel.out', labels, delimiter=' ', fmt="%s")
+loadtext= np.loadtxt('savelabel.out', dtype=str , delimiter='\n')
+#print loadtext
 
+#For loop to take from the trajectory the frames corresponding to a cluster and put them in 1 pdb trajectory
 for i in xrange (1, n_clusters+1):
     j = str(i)
     numindex= np.where(loadtext==j)
