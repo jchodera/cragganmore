@@ -109,12 +109,7 @@ for i in xrange (1, n_clusters+1):
     x3= np.loadtxt(x2, dtype=int, delimiter=' ')
     slicedi=subsampled.slice(x3)
     slicedi.save_pdb(trajecti)
-#    np.savetxt(trajecti,slicedi, delimiter='\n', fmt ="%s")
-#    pdbi= md.load_frame(h5traj, x2)
-#    np.savetxt(trajecti,pdbi, delimiter= '\n', fmt ="%s")
 
-#    blabla = np.loadtxt(x2, dtype=int, delimiter=' ')
-#    print blabla
 
 
 
