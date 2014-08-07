@@ -27,6 +27,11 @@ integrator_filename = os.path.join(RUNS_PATH, "integrator.xml")
 integrator_gz = gzip.compress(open(integrator_filename, 'rb').read())
 encoded_intg = base64.b64encode(integrator_gz).decode()
 
+reference_pdb_filename = os.path.join(RUNS_PATH, "minimized.pdb")
+encoded_pdb = base64.base64encode(gzip.compress(open(reference_pdb_filename, 'rb').read()))
+tags = {'pdb.gz.b64': encoded_pdb}
+
+
 for i in range(200):
     print(i)
     state_filename = os.path.join(RUNS_PATH, "state%d.xml" % i)
@@ -39,4 +44,4 @@ for i in range(200):
         'integrator.xml.gz.b64': encoded_intg
     }
 
-    stream = target.add_stream(files=data, scv='vspg11')
+    stream = target.add_stream(files=data, scv='vspg11', tags=tags)
