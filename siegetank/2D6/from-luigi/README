@@ -1,0 +1,31 @@
+#################################################################
+                         Archive content:
+#################################################################
+
+# Amber input file for cristal structure (PDBid:2F9Q)
+
+2d6_2f9q.inpcrd
+2d6_2f9q.prmtop
+
+
+# Amber input file for MD snapshot "CHZ170" 
+# (J Med Chem. 2008 Dec 11;51(23):7469-77)
+
+2d6_CHZ170.inpcrd
+2d6_CHZ170.prmtop
+
+
+# Amber input file for MD snapshot "PPD70"
+# (J Med Chem. 2008 Dec 11;51(23):7469-77)
+
+2d6_PPD70.inpcrd
+2d6_PPD70.prmtop
+
+
+# Archives containing the required files for build the above systems in tleap
+# (script file for leap: complex_XXX.in)
+
+2f9q.tgz
+CHZ170.tgz
+PPD70.tgz
+
