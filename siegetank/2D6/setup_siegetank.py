@@ -1,4 +1,4 @@
-import base64
+import base64 # This may require Python 3
 import os
 import gzip
 import siegetank
