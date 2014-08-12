@@ -59,18 +59,20 @@ prmtop = app.AmberPrmtopFile(prmtop_filename)
 inpcrd = app.AmberInpcrdFile(inpcrd_filename, loadBoxVectors=True)
 box_vectors = inpcrd.getBoxVectors()
 
-# Write initial file.
-pdb_filename = os.path.join(rundir, "initial.pdb")
-write_pdb(pdb_filename, prmtop.topology, inpcrd.positions)
+if mpi.rank == 0:
+    # Write initial file.
+    pdb_filename = os.path.join(rundir, "initial.pdb")
+    write_pdb(pdb_filename, prmtop.topology, inpcrd.positions)
 
 # Create a System object using the parameters defined in the prmtop file.
 print "Creating system..."
 system = prmtop.createSystem(nonbondedMethod=nonbondedMethod, nonbondedCutoff=cutoff, constraints=constraints)
 
-# Write system.
-print "Serializing system..."
-system_filename = os.path.join(rundir, "system.xml")
-write_file(system_filename, openmm.XmlSerializer.serialize(system))
+if mpi.rank == 0:
+    # Write system.
+    print "Serializing system..."
+    system_filename = os.path.join(rundir, "system.xml")
+    write_file(system_filename, openmm.XmlSerializer.serialize(system))
 
 # Add a Monte Carlo barostat.
 print "Adding barostat..."
@@ -79,8 +81,9 @@ force = openmm.MonteCarloBarostat(pressure, temperature, barostatFrequency)
 # Create a Langevin integrator with specified temperature, collision rate, and timestep.
 print "Creating and serializing integrator..."
 integrator = openmm.LangevinIntegrator(temperature, collision_rate, timestep)
-integrator_filename = os.path.join(rundir, "integrator.xml")
-write_file(integrator_filename, openmm.XmlSerializer.serialize(integrator))
+if mpi.rank == 0:
+    integrator_filename = os.path.join(rundir, "integrator.xml")
+    write_file(integrator_filename, openmm.XmlSerializer.serialize(integrator))
 
 # Create a context.
 print "Creating context..."
@@ -96,10 +99,14 @@ print "Minimizing..."
 minimizer = openmm.LocalEnergyMinimizer.minimize(context)
 state = context.getState(getPositions=True)
 minimized_positions = state.getPositions()
-state_filename = os.path.join(rundir, "minimized.xml")
-write_file(state_filename, openmm.XmlSerializer.serialize(state))
-pdb_filename = os.path.join(rundir, "minimized.pdb")
-write_pdb(pdb_filename, prmtop.topology, minimized_positions)
+if mpi.rank == 0:
+    state_filename = os.path.join(rundir, "minimized.xml")
+    write_file(state_filename, openmm.XmlSerializer.serialize(state))
+    pdb_filename = os.path.join(rundir, "minimized.pdb")
+    write_pdb(pdb_filename, prmtop.topology, minimized_positions)
+
+# Synchronize minimized position.
+minimized_positions = mpi.bcast(minimized_positions, root=0)
 
 # Generate initial conditions.
 for clone_index in range(nclones, mpi.rank, mpi.size):
