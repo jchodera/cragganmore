@@ -49,8 +49,9 @@ from mpi4py import MPI
 mpi = MPI.COMM_WORLD
 
 # Create directories if they do not exist.
-if not os.path.exists(rundir):
-    os.makedirs(rundir)
+if mpi.rank == 0:
+    if not os.path.exists(rundir):
+        os.makedirs(rundir)
 
 # Load the Amber format parameters and topology files.
 print "Reading prmtop and inpcrd..."
