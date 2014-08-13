@@ -29,7 +29,7 @@ constraints = app.HBonds
 pressure = 1.0*unit.atmospheres
 barostatFrequency = 50
 rundir = "./RUNS/RUN0/"
-nclones = 500
+nclones = 100
 nsteps_to_test = 500 # number of timesteps to run from each clone to test
 
 #

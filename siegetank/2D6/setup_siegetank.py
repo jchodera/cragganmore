@@ -32,7 +32,7 @@ encoded_pdb = base64.base64encode(gzip.compress(open(reference_pdb_filename, 'rb
 tags = {'pdb.gz.b64': encoded_pdb}
 
 
-for i in range(200):
+for i in range(100):
     print(i)
     state_filename = os.path.join(RUNS_PATH, "state%d.xml" % i)
     state_gz = gzip.compress(open(state_filename, 'rb').read())
