@@ -77,6 +77,7 @@ if mpi.rank == 0:
 # Add a Monte Carlo barostat.
 print "Adding barostat..."
 force = openmm.MonteCarloBarostat(pressure, temperature, barostatFrequency)
+system.addForce(force)
 
 # Create a Langevin integrator with specified temperature, collision rate, and timestep.
 print "Creating and serializing integrator..."
@@ -86,20 +87,24 @@ if mpi.rank == 0:
     write_file(integrator_filename, openmm.XmlSerializer.serialize(integrator))
 
 # Create a context.
-print "Creating context..."
-context = openmm.Context(system, integrator)
+print "Creating context %d / %d..." % (mpi.rank, mpi.size)
+platform = openmm.Platform.getPlatformByName('CUDA')
+deviceid = mpi.rank % 4
+platform.setPropertyDefaultValue('CudaDeviceIndex', '%d' % deviceid) # select Cuda device index   
+context = openmm.Context(system, integrator, platform)
 
 # Set positions and box vectors.
-print "Setting positions and box vectors..."
-context.setPositions(inpcrd.positions)
-context.setPeriodicBoxVectors(*box_vectors)
+if mpi.rank == 0:
+    print "Setting positions and box vectors..."
+    context.setPositions(inpcrd.positions)
+    context.setPeriodicBoxVectors(*box_vectors)
 
 # Minimize the energy prior to simulation.
-print "Minimizing..."
-minimizer = openmm.LocalEnergyMinimizer.minimize(context)
-state = context.getState(getPositions=True)
-minimized_positions = state.getPositions()
 if mpi.rank == 0:
+    print "Minimizing..."
+    minimizer = openmm.LocalEnergyMinimizer.minimize(context)
+    state = context.getState(getPositions=True)
+    minimized_positions = state.getPositions()
     state_filename = os.path.join(rundir, "minimized.xml")
     write_file(state_filename, openmm.XmlSerializer.serialize(state))
     pdb_filename = os.path.join(rundir, "minimized.pdb")
