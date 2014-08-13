@@ -28,7 +28,7 @@ integrator_gz = gzip.compress(open(integrator_filename, 'rb').read())
 encoded_intg = base64.b64encode(integrator_gz).decode()
 
 reference_pdb_filename = os.path.join(RUNS_PATH, "minimized.pdb")
-encoded_pdb = base64.base64encode(gzip.compress(open(reference_pdb_filename, 'rb').read()))
+encoded_pdb = base64.b64encode(gzip.compress(open(reference_pdb_filename, 'rb').read())).decode()
 tags = {'pdb.gz.b64': encoded_pdb}
 
 
