@@ -61,15 +61,15 @@ write_pdb(pdb_filename, prmtop.topology, inpcrd.positions)
 print "Creating system..."
 system = prmtop.createSystem(nonbondedMethod=nonbondedMethod, nonbondedCutoff=cutoff, constraints=constraints)
 
-# Write system.
-print "Serializing system..."
-system_filename = os.path.join(rundir, "system.xml")
-write_file(system_filename, openmm.XmlSerializer.serialize(system))
-
 # Add a Monte Carlo barostat.
 print "Adding barostat..."
 force = openmm.MonteCarloBarostat(pressure, temperature, barostatFrequency)
 system.addForce(force)
+
+# Write system.
+print "Serializing system..."
+system_filename = os.path.join(rundir, "system.xml")
+write_file(system_filename, openmm.XmlSerializer.serialize(system))
 
 # Create a Langevin integrator with specified temperature, collision rate, and timestep.
 print "Creating and serializing integrator..."

@@ -68,16 +68,16 @@ if mpi.rank == 0:
 print "Creating system..."
 system = prmtop.createSystem(nonbondedMethod=nonbondedMethod, nonbondedCutoff=cutoff, constraints=constraints)
 
+# Add a Monte Carlo barostat.
+print "Adding barostat..."
+force = openmm.MonteCarloBarostat(pressure, temperature, barostatFrequency)
+system.addForce(force)
+
 if mpi.rank == 0:
     # Write system.
     print "Serializing system..."
     system_filename = os.path.join(rundir, "system.xml")
     write_file(system_filename, openmm.XmlSerializer.serialize(system))
-
-# Add a Monte Carlo barostat.
-print "Adding barostat..."
-force = openmm.MonteCarloBarostat(pressure, temperature, barostatFrequency)
-system.addForce(force)
 
 # Create a Langevin integrator with specified temperature, collision rate, and timestep.
 print "Creating and serializing integrator..."
