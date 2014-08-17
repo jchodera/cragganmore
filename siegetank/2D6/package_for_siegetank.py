@@ -10,6 +10,7 @@ import os, os.path
 import numpy
 
 # Import OpenMM modules.
+from simtk.openmm import version
 from simtk.openmm import app
 from simtk import openmm
 from simtk import unit
@@ -29,8 +30,11 @@ constraints = app.HBonds
 pressure = 1.0*unit.atmospheres
 barostatFrequency = 50
 rundir = "./RUNS/RUN0/"
-nclones = 100
+nclones = 5
 nsteps_to_test = 500 # number of timesteps to run from each clone to test
+
+# Show actual OpenMM version to be used
+print "Using OpenMM Version : ", version.full_version
 
 #
 # SUBROUTINES
@@ -80,6 +84,9 @@ write_file(integrator_filename, openmm.XmlSerializer.serialize(integrator))
 # Create a context.
 print "Creating context..."
 context = openmm.Context(system, integrator)
+
+# Show platform used.
+print "Using platform : ", context.getPlatform().getName()
 
 # Set positions and box vectors.
 print "Setting positions and box vectors..."
