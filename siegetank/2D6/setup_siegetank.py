@@ -16,6 +16,8 @@ description = """\
 This project explores the conformational dynamics of human cytochrome P450 2D6, an enzyme responsible for metabolizing 25% of clinically used drugs. A better understanding of the dynamics and function of this enzyme will eventually lead to safer and less toxic therapeutics.\
 """
 
+# save every 125000 steps a 2fs  = 250ps
+# one frame seems to have ~ 350kB
 opts = {'description': description, 'steps_per_frame': 125000}
 
 target = siegetank.add_target(options=opts, engines=['openmm_601_cuda', 'openmm_601_opencl', 'openmm_601_cpu'])

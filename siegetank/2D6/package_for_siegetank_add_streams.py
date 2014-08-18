@@ -18,17 +18,6 @@ from simtk import unit
 #
 # PARAMETERS
 #
-prefix = os.path.join('from-luigi', 'explicit', '2f9q', '2d6_2f9q')
-prmtop_filename = prefix + '.prmtop'
-inpcrd_filename = prefix + '.inpcrd'
-cutoff = 9.0*unit.angstrom # nonbonded cutoff
-temperature = 300.0*unit.kelvin
-collision_rate = 1./unit.picosecond
-timestep = 2.0*unit.femtoseconds
-nonbondedMethod = app.PME
-constraints = app.HBonds
-pressure = 1.0*unit.atmospheres
-barostatFrequency = 50
 rundir = "./RUNS/RUN0/"
 nclones = range(5,100)
 nsteps_to_test = 500 # number of timesteps to run from each clone to test
@@ -42,44 +31,28 @@ print "Using OpenMM Version : ", version.full_version
 def write_file(filename, contents):
     with open(filename, 'w') as outfile:
         outfile.write(contents)
+        
+def read_file(filename):
+    with open(filename, 'r') as infile:
+        return infile.read()
 
 def write_pdb(filename, topology, positions):
     with open(filename, 'w') as outfile:
         app.PDBFile.writeFile(topology, positions, file=outfile)
 
-# Create directories if they do not exist.
-if not os.path.exists(rundir):
-    os.makedirs(rundir)
-
-# Load the Amber format parameters and topology files.
-print "Reading prmtop and inpcrd..."
-prmtop = app.AmberPrmtopFile(prmtop_filename)
-inpcrd = app.AmberInpcrdFile(inpcrd_filename, loadBoxVectors=True)
-box_vectors = inpcrd.getBoxVectors()
-
-# Write initial file.
-pdb_filename = os.path.join(rundir, "initial.pdb")
-write_pdb(pdb_filename, prmtop.topology, inpcrd.positions)
-
-# Create a System object using the parameters defined in the prmtop file.
-print "Creating system..."
-system = prmtop.createSystem(nonbondedMethod=nonbondedMethod, nonbondedCutoff=cutoff, constraints=constraints)
-
-# Add a Monte Carlo barostat.
-print "Adding barostat..."
-force = openmm.MonteCarloBarostat(pressure, temperature, barostatFrequency)
-system.addForce(force)
 
 # Write system.
-print "Serializing system..."
+print "Deserializing system..."
 system_filename = os.path.join(rundir, "system.xml")
-write_file(system_filename, openmm.XmlSerializer.serialize(system))
+system = openmm.XmlSerializer.deserialize(read_file(system_filename))
 
 # Create a Langevin integrator with specified temperature, collision rate, and timestep.
-print "Creating and serializing integrator..."
-integrator = openmm.LangevinIntegrator(temperature, collision_rate, timestep)
+print "Deserializing integrator..."
 integrator_filename = os.path.join(rundir, "integrator.xml")
-write_file(integrator_filename, openmm.XmlSerializer.serialize(integrator))
+integrator = openmm.XmlSerializer.deserialize(read_file(integrator_filename))
+
+# Get temperature from integrator
+temperature = integrator.getTemperature()
 
 # Create a context.
 print "Creating context..."
@@ -88,24 +61,17 @@ context = openmm.Context(system, integrator)
 # Show platform used.
 print "Using platform : ", context.getPlatform().getName()
 
-# Set positions and box vectors.
-print "Setting positions and box vectors..."
-context.setPositions(inpcrd.positions)
-context.setPeriodicBoxVectors(*box_vectors)
-
-# Minimize the energy prior to simulation.
-print "Minimizing..."
-minimizer = openmm.LocalEnergyMinimizer.minimize(context)
-state = context.getState(getPositions=True)
-minimized_positions = state.getPositions()
+# Read minimized coordinates
 state_filename = os.path.join(rundir, "minimized.xml")
-write_file(state_filename, openmm.XmlSerializer.serialize(state))
-pdb_filename = os.path.join(rundir, "minimized.pdb")
-write_pdb(pdb_filename, prmtop.topology, minimized_positions)
+state = openmm.XmlSerializer.deserialize(read_file(state_filename))
+minimized_positions = state.getPositions()
+
+# Get Boxvectors from state
+box_vectors = state.getPeriodicBoxVectors()
 
 # Generate initial conditions.
 for clone_index in nclones:
-    print "Clone %d / %d..." % (clone_index, nclones)
+    print "Clone %d / %d..." % (clone_index, max(nclones))
     # Reset positions and box vectors
     context.setPositions(minimized_positions)
     context.setPeriodicBoxVectors(*box_vectors)
