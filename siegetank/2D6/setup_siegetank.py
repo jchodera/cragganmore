@@ -10,7 +10,7 @@ my_token = os.environ["SIEGETANK_TOKEN"]
 siegetank.login(my_token)
 
 RUNS_PATH = "./RUNS/RUN0/"
-nclones = 5
+nclones = range(5,100)
 
 description = """\
 This project explores the conformational dynamics of human cytochrome P450 2D6, an enzyme responsible for metabolizing 25% of clinically used drugs. A better understanding of the dynamics and function of this enzyme will eventually lead to safer and less toxic therapeutics.\
@@ -35,7 +35,7 @@ encoded_pdb = base64.b64encode(gzip.compress(open(reference_pdb_filename, 'rb').
 tags = {'pdb.gz.b64': encoded_pdb}
 
 
-for i in range(nclones):
+for i in nclones:
     print(i)
     state_filename = os.path.join(RUNS_PATH, "state%d.xml" % i)
     state_gz = gzip.compress(open(state_filename, 'rb').read())
