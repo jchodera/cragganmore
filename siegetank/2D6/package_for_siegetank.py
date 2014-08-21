@@ -18,7 +18,7 @@ from simtk import unit
 #
 # PARAMETERS
 #
-prefix = os.path.join('from-luigi', 'explicit', '2f9q', '2d6_2f9q')
+prefix = os.path.join('from-luigi', 'explicit', '2f9q', '2d6_2f9q_s')
 prmtop_filename = prefix + '.prmtop'
 inpcrd_filename = prefix + '.inpcrd'
 cutoff = 9.0*unit.angstrom # nonbonded cutoff
@@ -29,8 +29,8 @@ nonbondedMethod = app.PME
 constraints = app.HBonds
 pressure = 1.0*unit.atmospheres
 barostatFrequency = 50
-rundir = "./RUNS/RUN0/"
-nclones = range(5,100)
+rundir = "./RUNS/RUN1/"
+nclones = range(0,100)
 nsteps_to_test = 500 # number of timesteps to run from each clone to test
 
 # Show actual OpenMM version to be used
@@ -105,7 +105,7 @@ write_pdb(pdb_filename, prmtop.topology, minimized_positions)
 
 # Generate initial conditions.
 for clone_index in nclones:
-    print "Clone %d / %d..." % (clone_index, nclones)
+    print "Clone %d / %d..." % (clone_index, max(nclones))
     # Reset positions and box vectors
     context.setPositions(minimized_positions)
     context.setPeriodicBoxVectors(*box_vectors)

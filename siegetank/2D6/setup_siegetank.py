@@ -9,8 +9,8 @@ system_name = "CYP2D6_HUMAN"
 my_token = os.environ["SIEGETANK_TOKEN"]
 siegetank.login(my_token)
 
-RUNS_PATH = "./RUNS/RUN0/"
-nclones = range(5,100)
+RUNS_PATH = "./RUNS/RUN1/"
+nclones = range(0,100)
 
 description = """\
 This project explores the conformational dynamics of human cytochrome P450 2D6, an enzyme responsible for metabolizing 25% of clinically used drugs. A better understanding of the dynamics and function of this enzyme will eventually lead to safer and less toxic therapeutics.\
