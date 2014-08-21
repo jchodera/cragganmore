@@ -6,6 +6,10 @@ import siegetank
 system_name = "CYP2D6_HUMAN"
 
 # Need a more secure way to store and load this.
+
+# Actual token is 309216fc-08d1-4b46-822a-27d9b92fadab
+# for the system with couterions in RUN1 and 100 streams
+
 my_token = os.environ["SIEGETANK_TOKEN"]
 siegetank.login(my_token)
 
