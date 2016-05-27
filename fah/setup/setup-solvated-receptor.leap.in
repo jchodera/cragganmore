@@ -1,0 +1,30 @@
+# Set up complex for TIP3P water simulation
+
+# Load forcefields
+source oldff/leaprc.ff99SBildn
+source leaprc.gaff
+
+# Load additional parameters.
+loadamberprep test.prepin
+loadamberparams IC6.frcmod
+loadoff HEME_IC6.off
+loadoff CYP_IC6.off
+
+# Load structures.
+prot=loadpdb M01_A82W_stef_GMX_2AMBER.pdb 
+hem=loadmol2 HEME2AMBER.mol2
+lig=loadpdb ranked_S-alpha-ionone_m1_1.pdb
+
+receptor = combine { prot hem }
+bond receptor.456.28 receptor.400.8
+saveamberparm receptor receptor.prmtop receptor.inpcrd
+savepdb receptor receptor.pdb
+
+system = combine { receptor }
+solvatebox system TIP3PBOX 10.0 iso
+addions system Na+ 15
+saveamberparm system system.prmtop system.inpcrd
+savepdb system system.pdb
+
+quit
+
